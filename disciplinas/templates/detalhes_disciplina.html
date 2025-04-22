@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ disciplina.nome }}</h1>
+<p>{{ disciplina.descricao }}</p>
+<p><strong>Média:</strong> {{ media|floatformat:1 }}</p>
+
+{% if not user_feedback %}
+    <a href="{% url 'avaliar_disciplina' disciplina.id %}" class="btn btn-primary">Avaliar Disciplina</a>
+{% else %}
+    <div class="alert alert-info">
+        Você já avaliou esta disciplina. 
+        <a href="{% url 'editar_feedback' user_feedback.id %}">Editar avaliação</a> ou 
+        <a href="{% url 'excluir_feedback' user_feedback.id %}" class="text-danger">Excluir avaliação</a>
+    </div>
+{% endif %}
+
+<h3 class="mt-4">Avaliações</h3>
+{% if feedbacks %}
+    <div class="list-group">
+        {% for feedback in feedbacks %}
+        <div class="list-group-item">
+            <div class="d-flex justify-content-between">
+                <h5>{{ feedback.aluno.username }}</h5>
+                <span class="badge bg-secondary">{{ feedback.nota }}</span>
+            </div>
+            <p>{{ feedback.comentario }}</p>
+            <small>{{ feedback.criado_em|date:"d/m/Y H:i" }}</small>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">Nenhuma avaliação ainda.</div>
+{% endif %}
+
+<a href="{% url 'lista_disciplinas' %}" class="btn btn-secondary mt-3">Voltar</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Editar Avaliação para {{ disciplina.nome }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_nota" class="form-label">Nota (1-5)</label>
+        <input type="number" class="form-control" name="nota" id="id_nota" min="1" max="5" value="{{ form.nota.value }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_comentario" class="form-label">Comentário (opcional)</label>
+        <textarea class="form-control" name="comentario" id="id_comentario" rows="3">{{ form.comentario.value }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+    <a href="{% url 'detalhes_disciplina' disciplina.id %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
